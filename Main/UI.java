@@ -13,7 +13,7 @@ public class UI {
     }
 
     public void draw(Graphics2D g2){
-        panel.setBackground(Color.decode("#37008f"));
+        panel.setBackground(Color.decode("#1E1F22"));
         drawPage(g2);
         if(exit){ drawExitInquiry(g2);}
 
@@ -32,24 +32,63 @@ public class UI {
     }
 
     public void drawExitInquiry(Graphics2D g2){
+        
+        g2.setFont(new Font("Inter", Font.PLAIN, 16));
+        FontMetrics fm = g2.getFontMetrics();
+        
+        String message = "Are you sure you want to exit Vibezz?";
+        int textWidth = fm.stringWidth(message);
 
-        g2.setColor(Color.decode("#6f01ff"));
-        g2.fillRoundRect(215, 310, 215, 80, 30, 30);
+        
+        int paddingX = 30;
+        int popupWidth = textWidth + (paddingX * 2);
+        int popupHeight = 110; 
 
-        g2.setColor(Color.BLACK);
-        g2.drawString("Are you sure you want to exit Vibezz?", 225, 330);
+        // Center popup
+        int panelW = panel.getWidth();
+        int panelH = panel.getHeight();
+        int popupX = (panelW - popupWidth) / 2;
+        int popupY = (panelH - popupHeight) / 2;
 
-        g2.setColor(Color.decode("#3b0285"));
-        g2.fillRoundRect(265, 355, 40, 20, 10, 10);
+        //BG
+        g2.setColor(Color.decode("#313338"));
+        g2.fillRoundRect(popupX, popupY, popupWidth, popupHeight, 30, 30);
+        
+        
+        g2.setColor(Color.decode("#F2F3F5"));
+        int textX = popupX + paddingX;
+        int textY = popupY + 40;
+        g2.drawString(message, textX, textY);
 
-        g2.setColor(Color.BLACK);
-        g2.drawString("Yes", 275, 370);
+        // button
+        int btnWidth = 60;
+        int btnHeight = 30;
+        int btnSpacing = 30; // Space between Yes and No
+        int totalBtnWidth = (btnWidth * 2) + btnSpacing;
+        
+        // Center the button
+        int btnStartX = popupX + (popupWidth - totalBtnWidth) / 2;
+        int btnY = popupY + 60;
 
-        g2.setColor(Color.decode("#3b0285"));
-        g2.fillRoundRect(345, 355, 40, 20, 10, 10);
+        // YES
+        int yesX = btnStartX;
+        g2.setColor(Color.decode("#5865F2"));
+        g2.fillRoundRect(yesX, btnY, btnWidth, btnHeight, 15, 15);
+        
+        g2.setColor(Color.decode("#F2F3F5"));
+        int yesTextWidth = fm.stringWidth("Yes");
+        // Center text
+        g2.drawString("Yes", yesX + (btnWidth - yesTextWidth) / 2, btnY + 20); 
 
-        g2.setColor(Color.BLACK);
-        g2.drawString("No", 355, 370);
+        // NO
+        int noX = btnStartX + btnWidth + btnSpacing;
+        g2.setColor(Color.decode("#5865F2"));
+        g2.fillRoundRect(noX, btnY, btnWidth, btnHeight, 15, 15);
+
+        g2.setColor(Color.decode("#F2F3F5"));
+        int noTextWidth = fm.stringWidth("No");
+        // Center text
+        g2.drawString("No", noX + (btnWidth - noTextWidth) / 2, btnY + 20);
     }
 
     public void drawPage(Graphics2D g2){
@@ -57,8 +96,8 @@ public class UI {
 
         int w = panel.getWidth();
         int h = panel.getHeight();
-
-        g2.setColor(Color.decode("#051261"));
+        //Background
+        g2.setColor(Color.decode("#1E1F22"));
         g2.fillRect(0, 0, w, h);
 
         int pad = 25;
@@ -73,34 +112,40 @@ public class UI {
         int contentY = searchBarY + searchBarH + 20;
         int contentH = h - contentY - pad;
 
-        g2.setColor(Color.decode("#0044b3"));
+
+        //Search Bar
+        g2.setColor(Color.decode("#313338"));
         int searchBarW = (int) (leftW * 1.0); 
         g2.fillRoundRect(pad, searchBarY, searchBarW, searchBarH, 15, 15);
 
-        g2.setColor(Color.decode("#010626"));
+        //Library
+        g2.setColor(Color.decode("#2B2D31"));
         g2.fillRoundRect(pad, contentY, leftW, contentH, 25, 25);
 
-        g2.setColor(Color.WHITE);
+        g2.setColor(Color.decode("#F2F3F5"));
         g2.setFont(new Font("Inter", Font.PLAIN, 16));
         g2.drawString("LIBRARY", pad + 55, contentY + 32);
 
         int rightX = pad + leftW + gap;
         int subH = (contentH - gap) / 2; 
 
-        g2.setColor(Color.decode("#010626"));
+        //Playlists
+        g2.setColor(Color.decode("#2B2D31"));
         g2.fillRoundRect(rightX, contentY, rightW, subH, 25, 25);
 
-        g2.setColor(Color.WHITE);
+        g2.setColor(Color.decode("#F2F3F5"));
         g2.drawString("PLAYLISTS", rightX + 50, contentY + 32);
+        
         g2.setColor(Color.GRAY);
         g2.setFont(new Font("Inter", Font.PLAIN, 14));
         g2.drawString("None", rightX + (rightW / 2) - 18, contentY + (subH / 2) + 5);
 
         int playerY = contentY + subH + gap;
-        g2.setColor(Color.decode("#010626"));
+        //Player
+        g2.setColor(Color.decode("#2B2D31"));
         g2.fillRoundRect(rightX, playerY, rightW, subH, 25, 25);
 
-        g2.setColor(Color.WHITE);
+        g2.setColor(Color.decode("#F2F3F5"));
         g2.setFont(new Font("Inter", Font.PLAIN, 16));
         g2.drawString("PLAYER", rightX + 20, playerY + 32);
     }
