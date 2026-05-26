@@ -1,7 +1,5 @@
 import Main.Panel;
-
 import java.awt.geom.RoundRectangle2D;
-
 import javax.swing.JFrame;
 
 public class Vibezz{

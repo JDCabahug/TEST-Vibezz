@@ -8,6 +8,10 @@ public class UI {
     Graphics2D g2;
     public boolean exit = false;
 
+    // Added hitboxes for the buttons
+    public Rectangle yesButtonBounds = new Rectangle(0, 0, 0, 0);
+    public Rectangle noButtonBounds = new Rectangle(0, 0, 0, 0);
+
     public UI(Panel panel){
         this.panel = panel;
     }
@@ -75,6 +79,9 @@ public class UI {
         g2.setColor(Color.decode("#5865F2"));
         g2.fillRoundRect(yesX, btnY, btnWidth, btnHeight, 15, 15);
         
+        // Update the YES button hitbox to match its exact visual coordinates
+        yesButtonBounds.setBounds(yesX, btnY, btnWidth, btnHeight);
+        
         g2.setColor(Color.decode("#F2F3F5"));
         int yesTextWidth = fm.stringWidth("Yes");
         // Center text
@@ -84,6 +91,9 @@ public class UI {
         int noX = btnStartX + btnWidth + btnSpacing;
         g2.setColor(Color.decode("#5865F2"));
         g2.fillRoundRect(noX, btnY, btnWidth, btnHeight, 15, 15);
+
+        // Update the NO button hitbox to match its exact visual coordinates
+        noButtonBounds.setBounds(noX, btnY, btnWidth, btnHeight);
 
         g2.setColor(Color.decode("#F2F3F5"));
         int noTextWidth = fm.stringWidth("No");

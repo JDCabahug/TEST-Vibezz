@@ -1,20 +1,24 @@
 package ControlPanel;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import Main.Panel;
 import Main.UI;
+import java.awt.Point;
+import java.awt.Window;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import javax.swing.SwingUtilities;
 
-public class MouseHandler implements MouseListener{
+// Implement MouseMotionListener here
+public class MouseHandler implements MouseListener, MouseMotionListener {
 
     Panel panel;
     UI ui;
+    private Point initialClick;
 
     public MouseHandler(Panel panel, UI ui){
         this.panel = panel;
         this.ui = ui;
-        
     }
 
     @Override
@@ -24,10 +28,11 @@ public class MouseHandler implements MouseListener{
         int y = e.getY();
 
         if(ui.exit){
-            if(x >= 265 && x <= 305 && y >= 355 && y <= 375){
+            // Use the Rectangles we created in the UI class!
+            if(ui.yesButtonBounds.contains(x, y)){
                 System.exit(0);
             }
-            else if(x >= 345 && x <= 385 && y >= 355 && y <= 375){
+            else if(ui.noButtonBounds.contains(x, y)){
                 ui.exit = false;
                 panel.repaint();
             }
@@ -36,22 +41,41 @@ public class MouseHandler implements MouseListener{
 
     @Override
     public void mousePressed(MouseEvent e) {
+        initialClick = e.getPoint();
+    }
 
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        if (initialClick == null) return;
+
+        Window window = SwingUtilities.getWindowAncestor(panel);
+        
+        if (window != null) {
+
+            int windowX = window.getLocation().x;
+            int windowY = window.getLocation().y;
+
+            int xMoved = e.getX() - initialClick.x;
+            int yMoved = e.getY() - initialClick.y;
+
+
+            window.setLocation(windowX + xMoved, windowY + yMoved);
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
 
+        initialClick = null;
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
+    public void mouseMoved(MouseEvent e) {}
 
     @Override
-    public void mouseExited(MouseEvent e) {
+    public void mouseEntered(MouseEvent e) {}
 
-    }
+    @Override
+    public void mouseExited(MouseEvent e) {}
     
 }

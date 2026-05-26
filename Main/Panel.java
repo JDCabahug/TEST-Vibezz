@@ -1,13 +1,11 @@
 package Main;
+import ControlPanel.KeyInputHandler;
+import ControlPanel.MouseHandler;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
 import javax.swing.JPanel;
-
-import ControlPanel.KeyInputHandler;
-import ControlPanel.MouseHandler;
 
 public class Panel extends JPanel {
     
@@ -24,6 +22,7 @@ public class Panel extends JPanel {
 
         this.addKeyListener(keyH);
         this.addMouseListener(mouse);
+        this.addMouseMotionListener(mouse);
         
         this.setFocusable(true);
         this.requestFocusInWindow();
