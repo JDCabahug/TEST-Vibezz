@@ -1,38 +1,79 @@
 package ControlPanel;
 
+import Main.Panel;
+import Main.UI;
+import java.awt.Point;
+import java.awt.Window;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import javax.swing.SwingUtilities;
 
-public class MouseHandler implements MouseListener{
+// Implement MouseMotionListener here
+public class MouseHandler implements MouseListener, MouseMotionListener {
+
+    Panel panel;
+    UI ui;
+    private Point initialClick;
+
+    public MouseHandler(Panel panel, UI ui){
+        this.panel = panel;
+        this.ui = ui;
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mouseClicked'");
+
+        int x = e.getX();
+        int y = e.getY();
+
+        if(ui.exit){
+            for (ButtonManager button : ui.getBackendButtons()) {
+                if (button.collisionCheck(x, y)) {
+                    button.execute();
+                    break;
+                }
+            }
+        }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mousePressed'");
+        initialClick = e.getPoint();
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        if (initialClick == null) return;
+
+        Window window = SwingUtilities.getWindowAncestor(panel);
+        
+        if (window != null) {
+
+            int windowX = window.getLocation().x;
+            int windowY = window.getLocation().y;
+
+            int xMoved = e.getX() - initialClick.x;
+            int yMoved = e.getY() - initialClick.y;
+
+
+            window.setLocation(windowX + xMoved, windowY + yMoved);
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mouseReleased'");
+
+        initialClick = null;
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mouseEntered'");
-    }
+    public void mouseMoved(MouseEvent e) {}
 
     @Override
-    public void mouseExited(MouseEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mouseExited'");
-    }
+    public void mouseEntered(MouseEvent e) {}
+
+    @Override
+    public void mouseExited(MouseEvent e) {}
     
 }
